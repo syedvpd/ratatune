@@ -53,82 +53,30 @@ const steps = [
 
 export default function BendLab() {
   const root = useRef<HTMLDivElement>(null);
-  const phone = useRef<HTMLDivElement>(null);
-  const stage = useRef<HTMLDivElement>(null);
   const progress = useRef<HTMLDivElement>(null);
-  const panels = useRef<(HTMLDivElement | null)[]>([]);
-  const stepRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [activeStepIndex, setActiveStepIndex] = useState(0);
 
   useEffect(() => {
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
     const el = root.current;
-    const stageEl = stage.current;
-    if (!el || !stageEl) return;
+    if (!el) return;
 
     const ctx = gsap.context(() => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: el,
-          start: 'top top',
-          end: '+=2400',
-          pin: '.bend-lab-inner',
-          pinSpacing: true,
-          scrub: 0.8,
-          anticipatePin: 1,
+      ScrollTrigger.create({
+        trigger: el,
+        start: 'top top',
+        end: '+=2000',
+        pin: '.bend-lab-inner',
+        pinSpacing: true,
+        scrub: 0.6,
+        anticipatePin: 1,
+        onUpdate: (self) => {
+          const stepIndex = Math.min(
+            steps.length - 1,
+            Math.floor(self.progress * steps.length)
+          );
+          setActiveStepIndex(stepIndex);
         },
-      });
-
-      panels.current.forEach((panel, index) => {
-        if (!panel) return;
-        gsap.set(panel, {
-          autoAlpha: index === 0 ? 1 : 0,
-          y: index === 0 ? 0 : 30,
-          scale: index === 0 ? 1 : 0.98,
-        });
-      });
-
-      steps.forEach((_, index) => {
-        if (index > 0) {
-          const previous = panels.current[index - 1];
-          const current = panels.current[index];
-          if (previous && current) {
-            tl.to(
-              previous,
-              { autoAlpha: 0, y: -30, scale: 0.97, duration: 0.14, ease: 'power2.in' },
-              index * 0.25 - 0.05
-            ).fromTo(
-              current,
-              { autoAlpha: 0, y: 30, scale: 0.98 },
-              { autoAlpha: 1, y: 0, scale: 1, duration: 0.18, ease: 'power3.out' },
-              index * 0.25
-            );
-          }
-          if (phone.current) {
-            tl.to(
-              phone.current,
-              {
-                y: index % 2 ? -20 : 15,
-                x: index % 2 ? 12 : -10,
-                rotate: index % 2 ? 1.6 : -1.2,
-                scale: 1 + index * 0.015,
-                duration: 0.25,
-                ease: 'power2.inOut',
-              },
-              index * 0.25
-            );
-          }
-        }
-        tl.call(
-          () => {
-            setActiveStepIndex(index);
-            stepRefs.current.forEach((button, buttonIndex) =>
-              button?.classList.toggle('is-active', buttonIndex === index)
-            );
-          },
-          [],
-          index * 0.25 + 0.01
-        );
       });
 
       if (progress.current) {
@@ -139,7 +87,7 @@ export default function BendLab() {
             scaleX: 1,
             transformOrigin: 'left center',
             ease: 'none',
-            scrollTrigger: { trigger: el, start: 'top top', end: '+=2400', scrub: true },
+            scrollTrigger: { trigger: el, start: 'top top', end: '+=2000', scrub: true },
           }
         );
       }
@@ -155,18 +103,9 @@ export default function BendLab() {
   const jumpToStep = (index: number) => {
     setActiveStepIndex(index);
     audioEngine.playClick(750 + index * 100, 'click');
-    panels.current.forEach((panel, pIdx) => {
-      if (!panel) return;
-      if (pIdx === index) {
-        gsap.to(panel, { autoAlpha: 1, y: 0, scale: 1, duration: 0.35, ease: 'power3.out' });
-      } else {
-        gsap.to(panel, { autoAlpha: 0, y: pIdx < index ? -20 : 20, scale: 0.98, duration: 0.25 });
-      }
-    });
-    stepRefs.current.forEach((button, bIdx) => {
-      button?.classList.toggle('is-active', bIdx === index);
-    });
   };
+
+  const currentStep = steps[activeStepIndex] || steps[0];
 
   return (
     <section ref={root} className="bend-lab" id="how">
@@ -175,66 +114,67 @@ export default function BendLab() {
       <div className="wrap bend-lab-inner">
         <div className="lab-head">
           <div>
-            <span className="eyebrow">A bend, measured in the moment</span>
+            <span className="eyebrow" style={{ color: 'var(--gold)' }}>A BEND, MEASURED IN THE MOMENT</span>
             <h2 className="display">Stop guessing.<br /><em>Start seeing.</em></h2>
           </div>
           <p>Scroll through the loop or tap any stage. Watch one bend become actionable real-time feedback.</p>
         </div>
 
-        <div ref={stage} className="lab-stage">
-          <div className="lab-rail" aria-label="Ratatune bend process">
-            {steps.map((s, i) => (
-              <button
-                key={s.n}
-                ref={(node) => { stepRefs.current[i] = node; }}
-                className={`lab-step ${activeStepIndex === i ? 'is-active' : ''}`}
-                type="button"
-                onClick={() => jumpToStep(i)}
-                aria-label={`${s.n} ${s.label}`}
-              >
-                <span>{s.n}</span>
-                <strong>{s.label}</strong>
-              </button>
-            ))}
-          </div>
+        <div className="lab-stage-grid">
+          {/* Left Column: Interactive Steps & Current Panel */}
+          <div className="lab-copy-col">
+            <div className="lab-rail" aria-label="Ratatune bend process">
+              {steps.map((s, i) => (
+                <button
+                  key={s.n}
+                  className={`lab-step ${activeStepIndex === i ? 'is-active' : ''}`}
+                  type="button"
+                  onClick={() => jumpToStep(i)}
+                  aria-label={`${s.n} ${s.label}`}
+                >
+                  <span>{s.n}</span>
+                  <strong>{s.label}</strong>
+                </button>
+              ))}
+            </div>
 
-          <div className="lab-copy">
             <div className="lab-kicker">
               LIVE BEND CHECK / <span>3 HOLE DRAW (KEY OF C)</span>
             </div>
-            <div className="lab-panels">
-              {steps.map((s, i) => (
-                <div className="lab-panel" key={s.n} ref={(node) => { panels.current[i] = node; }}>
-                  <h3>{s.title}</h3>
-                  <p>{s.body}</p>
-                  <div className="lab-metric">
-                    <strong>{s.value}</strong>
-                    <span>{s.detail}</span>
-                  </div>
-                  <div className="lab-status-tag">
-                    <span className="dot" />
-                    <span>{s.status}</span>
-                  </div>
-                </div>
-              ))}
+
+            <div className="lab-panel-active" key={currentStep.n}>
+              <h3>{currentStep.title}</h3>
+              <p>{currentStep.body}</p>
+              <div className="lab-metric">
+                <strong>{currentStep.value}</strong>
+                <span>{currentStep.detail}</span>
+              </div>
+              <div className="lab-status-tag">
+                <span className="dot" />
+                <span>{currentStep.status}</span>
+              </div>
             </div>
           </div>
 
-          <div className="lab-phone" ref={phone}>
-            <div className="phone-bezel">
-              <Image
-                src="/phone.jpg"
-                alt="Ratatune live 3 hole draw bend reading"
-                fill
-                sizes="(max-width: 800px) 72vw, 360px"
-              />
-              <div className="lab-scan" />
+          {/* Right Column: Full 100% Unclipped Phone Showcase */}
+          <div className="lab-phone-col">
+            <div className="lab-phone-wrapper">
+              <div className="phone-bezel">
+                <Image
+                  src="/phone.jpg"
+                  alt="Ratatune live 3 hole draw bend reading"
+                  width={340}
+                  height={680}
+                  priority
+                  style={{ width: '100%', height: 'auto', display: 'block' }}
+                />
+                <div className="lab-scan" />
+              </div>
+              <div className="phone-glow" />
             </div>
-            <div className="phone-glow" />
+            <div className="lab-orbit orbit-a" />
+            <div className="lab-orbit orbit-b" />
           </div>
-          <div className="lab-orbit orbit-a" />
-          <div className="lab-orbit orbit-b" />
-          <div className="lab-cursor"><span /> LIVE ENGINE</div>
         </div>
 
         <div className="lab-foot">

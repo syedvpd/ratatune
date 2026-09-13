@@ -176,21 +176,6 @@ export default function Page() {
 
             <motion.div className="hero-v2-media" style={{ y: heroY }}>
               <Harmonica3D />
-              <div className="floating-readout readout-a" onClick={playHeroDemoSound} title="Click to hear Target Note">
-                <span>TARGET NOTE</span>
-                <b>−2.0</b>
-                <small>A4 · whole step</small>
-              </div>
-              <div className="floating-readout readout-b" onClick={playHeroDemoSound} title="Click to hear Actual Miss">
-                <span>ACTUAL PITCH</span>
-                <b>−1.6</b>
-                <small>447.2 Hz</small>
-              </div>
-              <div className="floating-cents" onClick={playHeroDemoSound} title="Click to trigger bend tone">
-                <span>LIVE READING</span>
-                <strong>−28¢</strong>
-                <small>A little flat. Lift tongue arch.</small>
-              </div>
             </motion.div>
           </div>
           <div className="hero-bottom">

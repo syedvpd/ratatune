@@ -12,28 +12,28 @@ export default function SmoothScroll() {
     if (typeof window === 'undefined') return;
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-    // High performance Lenis instance
+    // High performance smooth Lenis instance
     const lenis = new Lenis({
-      duration: 1.05,
+      duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
       orientation: 'vertical',
       gestureOrientation: 'vertical',
       smoothWheel: true,
-      wheelMultiplier: 1.0,
-      touchMultiplier: 1.1,
+      wheelMultiplier: 0.9,
+      touchMultiplier: 1.2,
     });
 
     lenis.on('scroll', ScrollTrigger.update);
 
-    // Optimized RAF loop
-    let rafId: number;
-    function raf(time: number) {
-      lenis.raf(time);
-      rafId = requestAnimationFrame(raf);
-    }
-    rafId = requestAnimationFrame(raf);
+    // Synchronize GSAP ticker with Lenis RAF for buttery smooth scrub & pin
+    const tickerUpdate = (time: number) => {
+      lenis.raf(time * 1000);
+    };
 
-    // Anchor clicks
+    gsap.ticker.add(tickerUpdate);
+    gsap.ticker.lagSmoothing(0);
+
+    // Smooth Anchor clicks
     const handleAnchorClick = (e: MouseEvent) => {
       const target = (e.target as HTMLElement).closest('a[href^="#"]');
       if (target) {
@@ -42,7 +42,7 @@ export default function SmoothScroll() {
           const el = document.querySelector(href);
           if (el) {
             e.preventDefault();
-            lenis.scrollTo(el as HTMLElement, { offset: -65, duration: 1.2 });
+            lenis.scrollTo(el as HTMLElement, { offset: -70, duration: 1.4 });
           }
         }
       }
@@ -52,7 +52,7 @@ export default function SmoothScroll() {
 
     return () => {
       document.removeEventListener('click', handleAnchorClick);
-      cancelAnimationFrame(rafId);
+      gsap.ticker.remove(tickerUpdate);
       lenis.destroy();
     };
   }, []);
