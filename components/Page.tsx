@@ -478,50 +478,98 @@ export default function Page() {
               </div>
             </div>
           </div>
-          <div className="reference-strip wrap">
-            <div className="reference-label">
-              <span>PRODUCT LANGUAGE</span>
-              <b>Specific beats generic.</b>
+          <div className="wrap full-width-dashboard">
+            <div className="dashboard-topbar">
+              <div className="dashboard-brand">
+                <span className="dashboard-dot" />
+                <span className="eyebrow" style={{ color: 'var(--gold)' }}>ACOUSTIC REED SPECTROGRAPH · HOLE 3 DRAW</span>
+              </div>
+              <div className="scorecard-badge">
+                <span>−28¢ CALIBRATION LOCK</span>
+              </div>
             </div>
-            <div className="reference-image">
-              <Image
-                src="/reference-dashboard.jpg"
-                alt="Ratatune product language reference"
-                width={1536}
-                height={1068}
-                sizes="(max-width: 900px) 100vw, 620px"
-              />
+            <div className="dashboard-cols">
+              <div className="dashboard-waveform">
+                <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '11px', color: '#8ea092' }}>
+                  <span>RESONANT HARMONIC SPECTRUM</span>
+                  <span style={{ color: 'var(--gold)', fontWeight: 700 }}>447.2 Hz / TARGET 493.9 Hz</span>
+                </div>
+                <div className="wave-bars-flex">
+                  <div className="wave-bar-unit" style={{ height: '35%' }} />
+                  <div className="wave-bar-unit" style={{ height: '55%' }} />
+                  <div className="wave-bar-unit" style={{ height: '85%' }} />
+                  <div className="wave-bar-unit" style={{ height: '100%', background: 'var(--gold)' }} />
+                  <div className="wave-bar-unit" style={{ height: '70%' }} />
+                  <div className="wave-bar-unit" style={{ height: '90%' }} />
+                  <div className="wave-bar-unit" style={{ height: '60%' }} />
+                  <div className="wave-bar-unit" style={{ height: '40%' }} />
+                  <div className="wave-bar-unit" style={{ height: '25%' }} />
+                </div>
+              </div>
+              <div className="dashboard-controls">
+                <div className="cue-box">
+                  <strong>PRACTICAL EMBOUCHURE CUE</strong>
+                  <p>“Slightly flat by −28 cents. Lift the back of your tongue toward the upper rear molars and slow your draw breath.”</p>
+                </div>
+                <button 
+                  type="button"
+                  className="btn btn-secondary" 
+                  onClick={playHeroDemoSound}
+                  style={{ width: '100%' }}
+                >
+                  <span>▶ Play −28¢ Harmonic Tone</span>
+                </button>
+              </div>
             </div>
           </div>
         </section>
 
-        {/* 13. Campaign Promise Brief Signal */}
+        {/* 13. Campaign Promise Bento Scorecard (100% Full-Width) */}
         <section className="brief-signal">
-          <div className="wrap brief-signal-grid">
+          <div className="wrap">
             <Reveal>
-              <div>
-                <span className="eyebrow">One sentence, kept intact</span>
-                <h2 className="display">
-                  The page never loses<br />
-                  <em>the bend.</em>
+              <div style={{ textAlign: 'center', maxWidth: '720px', margin: '0 auto' }}>
+                <span className="eyebrow" style={{ color: 'var(--gold)' }}>PROMISE VERIFIED BY ACOUSTICS</span>
+                <h2 className="display" style={{ margin: '14px 0 16px' }}>
+                  The page never loses <em>the bend.</em>
                 </h2>
-                <p>
-                  The campaign promise stays rigorous from the first frame to the final access request. No generic SaaS filler.
+                <p style={{ color: '#a4b5a7', lineHeight: 1.6 }}>
+                  From the initial blow to full whole-step draws, Ratatune is the single source of truth for honest diatonic pitch accuracy.
                 </p>
               </div>
             </Reveal>
             <Reveal>
-              <div className="brief-art">
-                <Image
-                  src="/brief-scorecard.jpg"
-                  alt="Ratatune campaign promise reference"
-                  width={1536}
-                  height={660}
-                  sizes="(max-width: 900px) 100vw, 720px"
-                />
-                <div className="brief-art-overlay">
-                  <span>CAMPAIGN PROMISE</span>
-                  <b>Finally hear whether your bends are actually in tune.</b>
+              <div className="full-width-scorecard">
+                <div className="scorecard-header">
+                  <div className="scorecard-badge">
+                    <span>AI LISTENS · HARMONIC SCORECARD</span>
+                  </div>
+                  <div className="scorecard-meta">
+                    FOUNDING PRE-LAUNCH ACCESS · 2026 EDITION
+                  </div>
+                </div>
+                <div className="scorecard-grid">
+                  <div className="scorecard-card">
+                    <span className="scorecard-card-tag">01 · ACCURACY</span>
+                    <div className="scorecard-card-val">−28<em>cents</em></div>
+                    <div className="scorecard-card-desc">
+                      Real-time microphone analysis tracks every draw semitone deviation down to 1 cent resolution.
+                    </div>
+                  </div>
+                  <div className="scorecard-card">
+                    <span className="scorecard-card-tag">02 · MOUTH PHYSICS</span>
+                    <div className="scorecard-card-val">A4<em>resonant</em></div>
+                    <div className="scorecard-card-desc">
+                      Acoustic formant mapping instantly connects pitch deviation with tongue arch and throat depth cues.
+                    </div>
+                  </div>
+                  <div className="scorecard-card">
+                    <span className="scorecard-card-tag">03 · COACHING</span>
+                    <div className="scorecard-card-val">100%<em>kind</em></div>
+                    <div className="scorecard-card-desc">
+                      No streak guilt or generic gamification. Just the exact next physical adjustment to dial your bend into tune.
+                    </div>
+                  </div>
                 </div>
               </div>
             </Reveal>
