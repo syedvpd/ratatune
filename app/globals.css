@@ -624,11 +624,13 @@ button, input, select {
 
 /* Statement Section */
 .statement {
-  background: var(--paper);
-  color: var(--ink);
+  background: #080d0a;
+  color: #fbf9f4;
   padding: clamp(120px, 16vh, 220px) 0 clamp(90px, 12vh, 160px);
   position: relative;
   overflow: hidden;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .statement-inner {
@@ -642,7 +644,7 @@ button, input, select {
   font-size: 10px;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: #798075;
+  color: var(--gold);
 }
 
 .statement h2 {
@@ -653,11 +655,11 @@ button, input, select {
 }
 
 .statement h2 em {
-  color: #8c9689;
+  color: var(--gold);
 }
 
 .statement p {
-  color: #596155;
+  color: #b9c8bc;
   line-height: 1.65;
   font-size: 16px;
   max-width: 380px;
@@ -673,24 +675,25 @@ button, input, select {
   display: flex;
   align-items: center;
   gap: 16px;
-  color: #9aa196;
+  color: #8fa193;
   font-size: 9px;
   letter-spacing: 0.2em;
 }
 
 .statement-rail i {
   height: 1px;
-  background: #c8c2b3;
+  background: rgba(255, 255, 255, 0.12);
   flex: 1;
 }
 
 /* Signal Section */
 .signal-section {
-  background: #eae4d5;
-  color: var(--ink);
+  background: #0b120d;
+  color: #fbf9f4;
   padding: clamp(110px, 15vh, 180px) 0;
   overflow: hidden;
   position: relative;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .signal-wrap {
@@ -707,23 +710,23 @@ button, input, select {
 }
 
 .signal-copy h2 em {
-  color: #a47e2b;
+  color: var(--gold);
 }
 
 .signal-copy p {
   max-width: 460px;
-  color: #5c6258;
+  color: #b2c3b6;
   line-height: 1.65;
   font-size: 17px;
 }
 
 .signal-visual {
   height: 440px;
-  border: 1px solid rgba(17, 19, 15, 0.15);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 36px;
   position: relative;
   overflow: hidden;
-  background: #dfd8c7;
+  background: #080e0a;
   box-shadow: inset 0 0 60px rgba(17, 19, 15, 0.04), 0 30px 80px rgba(17, 19, 15, 0.08);
 }
 
@@ -731,8 +734,8 @@ button, input, select {
   position: absolute;
   inset: 0;
   background:
-    linear-gradient(rgba(17, 19, 15, 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(17, 19, 15, 0.07) 1px, transparent 1px);
+    linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
   background-size: 44px 44px;
 }
 
@@ -776,9 +779,9 @@ button, input, select {
 
 .signal-label {
   position: absolute;
-  border: 1px solid rgba(17, 19, 15, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.16);
   border-radius: 16px;
-  background: rgba(246, 242, 232, 0.85);
+  background: rgba(16, 26, 20, 0.85);
   backdrop-filter: blur(8px);
   padding: 12px 16px;
   font-size: 8.5px;
@@ -790,7 +793,7 @@ button, input, select {
   display: block;
   font-size: 26px;
   letter-spacing: -0.06em;
-  color: var(--ink);
+  color: var(--white);
   margin-top: 3px;
 }
 
@@ -3651,4 +3654,187 @@ button, input, select {
   .lab-rail { flex-direction: row; flex-wrap: wrap; }
   .lab-panels { min-height: 380px; }
   .lab-phone { position: relative; width: 100%; height: 420px; right: auto; top: auto; margin-top: 20px; }
+}
+
+/* 3D Harmonica Showcase & Interactive Centerpiece */
+.harmonica-3d-wrapper {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  background: radial-gradient(circle at 50% 40%, rgba(245, 194, 83, 0.08), rgba(8, 14, 10, 0.95) 70%);
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 36px;
+  box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  padding: 18px 22px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+}
+
+.harmonica-canvas-container {
+  width: 100%;
+  height: 380px;
+  cursor: grab;
+  position: relative;
+  z-index: 2;
+}
+
+.harmonica-canvas-container:active {
+  cursor: grabbing;
+}
+
+.spin-360-badge {
+  position: absolute;
+  top: 18px;
+  right: 20px;
+  z-index: 5;
+  background: rgba(14, 22, 17, 0.78);
+  border: 1px solid rgba(245, 194, 83, 0.35);
+  border-radius: 999px;
+  padding: 8px 16px;
+  color: var(--gold);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+}
+
+.spin-360-badge:hover {
+  background: rgba(245, 194, 83, 0.18);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(245, 194, 83, 0.25);
+}
+
+.spin-360-badge.is-spinning .spin-icon {
+  animation: spinIcon 1.2s linear infinite;
+}
+
+@keyframes spinIcon {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.harmonica-hole-hud {
+  width: 100%;
+  position: relative;
+  z-index: 3;
+  margin-top: -10px;
+  background: rgba(8, 13, 9, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 24px;
+  padding: 16px 20px;
+  backdrop-filter: blur(14px);
+}
+
+.hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.hud-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 9.5px;
+  letter-spacing: 0.16em;
+  font-weight: 800;
+  color: #a4b7a7;
+  text-transform: uppercase;
+}
+
+.hud-title .live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--mint);
+  box-shadow: 0 0 8px var(--mint);
+  animation: pulseDot 1.8s infinite;
+}
+
+.breath-selector {
+  display: flex;
+  gap: 6px;
+}
+
+.breath-pill {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 999px;
+  padding: 4px 12px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #b2c3b5;
+  cursor: pointer;
+  transition: all 0.25s;
+}
+
+.breath-pill.active {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: #0c120e;
+  box-shadow: 0 4px 14px rgba(245, 194, 83, 0.3);
+}
+
+.holes-grid {
+  display: grid;
+  grid-template-columns: repeat(10, 1fr);
+  gap: 6px;
+}
+
+.hole-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.hole-btn:hover {
+  background: rgba(245, 194, 83, 0.12);
+  border-color: var(--gold);
+  transform: translateY(-2px);
+}
+
+.hole-btn.active {
+  background: rgba(245, 194, 83, 0.22);
+  border-color: var(--gold);
+  box-shadow: 0 0 16px rgba(245, 194, 83, 0.35);
+  transform: translateY(-2px);
+}
+
+.hole-num {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+.hole-btn.active .hole-num {
+  color: var(--gold);
+}
+
+.hole-note {
+  font-size: 9px;
+  font-weight: 600;
+  color: #8fa092;
+}
+
+.hole-btn.active .hole-note {
+  color: #ffffff;
 }

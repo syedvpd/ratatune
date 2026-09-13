@@ -6,6 +6,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import SmoothScroll from './SmoothScroll';
 import Reveal from './Reveal';
 import LeadModal from './LeadModal';
+import Harmonica3D from './Harmonica3D';
 import BendLab from './BendLab';
 import InteractiveBendTuner from './InteractiveBendTuner';
 import HarmonicaExplorer from './HarmonicaExplorer';
@@ -174,15 +175,7 @@ export default function Page() {
             </div>
 
             <motion.div className="hero-v2-media" style={{ y: heroY }}>
-              <div className="hero-image-shell">
-                <Image
-                  src="/bend-accuracy.jpg"
-                  alt="Harmonica player and Ratatune bend accuracy interface"
-                  fill
-                  priority
-                  sizes="(max-width: 900px) 100vw, 62vw"
-                />
-              </div>
+              <Harmonica3D />
               <div className="floating-readout readout-a" onClick={playHeroDemoSound} title="Click to hear Target Note">
                 <span>TARGET NOTE</span>
                 <b>−2.0</b>
